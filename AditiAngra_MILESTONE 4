@@ -1,0 +1,141 @@
+------------------------------------------------------------------------------------------------------------
+*https://leetcode.com/problems/majority-element/*
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int majority, count = 0;
+        for(int i = 0; i < nums.size(); i++){
+            if(count == 0){
+                majority = nums[i];
+            }
+            if(majority == nums[i]) count++;
+            else count--;
+        }
+        return majority;
+    }
+};
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+https://leetcode.com/problems/non-overlapping-intervals/
+bool comp(vector<int> &a,vector<int> &b) {
+	return a[1]<b[1];
+}
+class Solution {
+public:
+	int eraseOverlapIntervals(vector<vector<int>>& intervals) {
+		int ans=-1;      
+		if(intervals.size()==0) return 0;       
+		sort(intervals.begin(),intervals.end(),comp);      //custom comperator is used.
+		vector<int> prev= intervals[0];
+
+		for(vector<int> i: intervals) {
+			if(prev[1]>i[0]) {
+				ans++;                //we dont update previous, because i[1] will be grater then prev[1]
+			}else prev=i;           // we want the end point to be minimum
+		}
+		return ans;                 //ans was initially made -1 because our prev and intervals[0] will always match
+	}
+};
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+https://leetcode.com/problems/kth-largest-element-in-an-array/
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+   priority_queue<int,vector<int>,greater<int>>minH;
+        for(int i=0;i<nums.size();i++)
+        {
+            minH.push(nums[i]);
+            if(minH.size()>k)
+            {
+                minH.pop();
+            }
+                
+        }
+        return (minH.top());
+    }
+};
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+https://leetcode.com/problems/sort-an-array/
+//bubble sort//
+public:
+    vector<int> sortArray(vector<int>& nums) {
+       for(int i=0;i<nums.size()-1;i++)
+       {
+           for(int j=0;j<nums.size()-1-i;j++)
+           {
+               if(nums[j]>nums[j+1])
+               {
+                   swap(nums[j],nums[j+1]);
+               }
+           }
+       }
+        return nums;
+    }
+};
+//
+class Solution {
+public:
+    vector<int> sortArray(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+        return nums;
+    }
+};
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+https://leetcode.com/problems/hand-of-straights/
+class Solution {
+public:
+    int sz;
+    bool isNStraightHand(vector<int>& hand, int gpSize) {
+       sz=hand.size();
+        
+        if(sz%gpSize!=0) return false;
+        
+        map<int,int> mp;
+        for(auto n:hand)
+            mp[n]++;  
+        while(mp.size()>0)
+        {
+            int size=gpSize;
+            
+            auto it=mp.begin();
+            int n=mp.begin()->first-1;
+            while(size--)
+            {
+                if(it==mp.end()) return 0;
+               if(it->first-n!=1) return false;
+                mp[it->first]--;
+                n=it->first;
+                auto itt=it;
+                it++;
+                if(mp[itt->first]==0) mp.erase(itt);
+                
+            }
+        }
+        return 1;
+    }
+};
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+https://leetcode.com/problems/string-without-aaa-or-bbb/
+lass Solution {
+public:
+    string strWithout3a3b(int a, int b) {
+        string ans="";
+        int n=a+b;
+        int x=0, y=0;
+        for(int i=0;i<n;i++)
+        {
+            if((a>=b && x!=2) || (y==2 && a>0))
+            {
+                x++;a--;y=0;
+                ans+='a';
+            }
+            else if((b>=a && y!=2) || (x==2 && b>0))
+            {
+                y++;b--;x=0;
+                ans+='b';
+            }
+        }
+        return ans;
+    }
+};
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
